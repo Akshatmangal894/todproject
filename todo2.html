@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo App</title>
+    <style>
+        /* Some basic styling for the todo items */
+
+        .container{
+            width: 300px;
+            height: 300px;
+            border: 2px solid red;
+            background-color: aqua;
+            position: relative;
+            top: 10rem;
+            right: -27rem;
+            padding-left: 10rem;
+            padding-right: 0.5rem;
+
+
+
+
+        }
+        .todo-item {
+            margin-top:5px;
+            margin-bottom: 17px;
+        }
+
+        .con input{
+          border: none;
+          outline: none;
+          padding: 5px 5px 6px 6px;
+          margin-left: -5px;
+
+        }
+
+        .btn{
+            padding: 13px 17px;
+            border: none;
+            outline: none;
+
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="wrapper-box">
+            <div class="con">
+                <h1>Todo App</h1>
+                <input type="text" id="todoInput" placeholder="Add a new todo">
+            </div>
+      
+            <button class="btn" onclick="addTodo()">Add</button>
+            <div id="todoList"></div>
+        </div>
+       
+    </div>
+   
+
+    <script>
+        // Array to store todos
+        let todos = [];
+
+        function addTodo() {
+            const todoInput = document.getElementById('todoInput');
+            const todoText = todoInput.value.trim();
+            if (todoText !== '') {
+                todos.push(todoText);
+                todoInput.value = '';
+                displayTodos();
+            }
+        }
+
+        todoInput.addEventListener("keypress",function(e){
+            if(event.key == "Enter"){
+            addTodo();
+            displayTodos();
+            }
+        })
+
+        function displayTodos() {
+            const todoList = document.getElementById('todoList');
+            todoList.innerHTML = '';
+            todos.forEach((todo, index) => {
+                const todoItem = document.createElement('div');
+                todoItem.classList.add('todo-item');
+                todoItem.innerHTML = `
+                    <span>${todo}</span>
+                    <button onclick="editTodo(${index})">Edit</button>
+                    <button onclick="deleteTodo(${index})">Delete</button>
+                `;
+                todoList.appendChild(todoItem);
+            });
+        }
+
+        function editTodo(index) {
+            const newTodoText = prompt('Enter the new todo text:');
+            if (newTodoText !== null) {
+                todos[index] = newTodoText.trim();
+                displayTodos();
+            }
+        }
+
+        function deleteTodo(index) {
+            todos.splice(index, 1);
+            displayTodos();
+        }
+
+        // Initial display of todos
+        displayTodos();
+    </script>
+</body>
+</html>
